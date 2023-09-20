@@ -1,4 +1,4 @@
-import { Person, Comment, Post, Like } from "./models/schema.js";
+import { Person, Comment, Post} from "./models/schema.js";
 
 
 async function seed() {
@@ -8,7 +8,6 @@ async function seed() {
   await Person.deleteMany()
   await Comment.deleteMany()
   await Post.deleteMany()
-  await Like.deleteMany()
 
 
   const jack = await Person.create({name: "Jack"})
@@ -30,7 +29,10 @@ async function seed() {
 
   const comment1 = await Comment.create({
     body: "I am a root comment",
-    user: jack.id,
+    user: {
+      id: jack.id,
+      name: "jack"
+    },
     createdAt: Date.now(),
     parentId: null
   })
@@ -40,14 +42,20 @@ async function seed() {
   const comment2 = await Comment.create({
     body: "I am a nested comment",
     parentId: comment1.id,
-    user: rocky.id,
+    user: {
+      id: rocky.id,
+      name: "Rocky" 
+    },
     createdAt: Date.now()
   })
   post1.comments.push(comment2.id);
 
   const comment3 = await Comment.create({
     body: "I am a root comment",
-    user: rocky.id,
+    user: {
+      id: rocky.id,
+      name: "Rocky"
+    },
     createdAt: Date.now(),
     parentId: null
 

@@ -8,8 +8,13 @@ body {
   line-height: 1.4;
 }
 
+button {
+  cursor: pointer;
+}
+
 .body-container {
-  padding-top: 3rem
+ 
+  padding: 3rem .7rem 0 .7rem
 }
 
 .container {
@@ -70,24 +75,27 @@ button {
 }
 
 .nested-comments {
-  padding-left: .5rem;
+  padding-left: .7rem;
   flex-grow: 1;
 }
 
 .nested-comments-stack {
   display: flex;
+  align-items: stretch
 }
 
 .collapse-line {
   border: none;
   background: none;
-  padding: 0;
+  height: 100%;
   width: 15px;
+
   margin-top: .5rem;
   position: relative;
   cursor: pointer;
   outline: none;
   transform: translateX(-50%);
+  display: flex;
 }
 
 .collapse-line:hover::before,
@@ -102,7 +110,8 @@ button {
   bottom: 0;
   left: 50%;
   width: 1px;
-  background-color: hsl(235, 50%, 74%);
+
+  background-color: hsl(235, 93%, 49%);
   transition: background-color 100ms ease-in-out;
 }
 
@@ -133,6 +142,10 @@ button {
   padding: .25em;
   display: flex;
   align-items: center;
+}
+
+.red {
+  --hue: 0;
 }
 
 .mr-1 {

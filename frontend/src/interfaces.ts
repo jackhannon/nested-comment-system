@@ -1,5 +1,5 @@
 interface User {
-  _id?: string,
+  id?: string,
   name?: string
 }
 
@@ -18,6 +18,7 @@ interface Comment {
   postId: string
   createdAt: Date | string
   user: User
+  likes: string[]
   parentId?: string
 }
 

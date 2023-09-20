@@ -15,7 +15,8 @@ interface ContextTypes {
   getReplies: (parentId: string) => Comment[],
   createLocalComment: (comment: Comment) => void,
   updateLocalComment: (id: string, body: string) => void,
-  deleteLocalComment: (id: string) => void
+  deleteLocalComment: (id: string) => void,
+  toggleLocalCommentLike: (id: string, userId: string) => void
 }
 
 const PostContext = createContext({} as ContextTypes);
@@ -27,9 +28,8 @@ const usePost = () => {
 const PostProvider: React.FC<ContextProviderProps> = ({ children }) => {
   const { id } = useParams()
   const {loading, error, data} = useAsync(() => getPost(id), [id])
-  //never do that shit again where you pass id into the call back
   const [comments, setComments] = useState<Comment[]>([])
-  console.log(comments)
+  
   const commentsByParentId = useMemo(() => {
     const group: { [key: string]: Comment[] } = {}
     group["root"] = []
@@ -38,7 +38,7 @@ const PostProvider: React.FC<ContextProviderProps> = ({ children }) => {
       if (comment.parentId && !group[comment.parentId]) {
         group[comment.parentId] = []
       } 
-      if (comment?.parentId) {
+      if (comment.parentId) {
         group[comment.parentId].push(comment)
       } else {
         group["root"].push(comment)
@@ -81,8 +81,21 @@ const PostProvider: React.FC<ContextProviderProps> = ({ children }) => {
     })
   }
 
-  function toggleLocalCommentLike(id: string, body: string) {
-    
+  function toggleLocalCommentLike(id: string, userId: string) {
+    setComments(prevComments => {
+      return prevComments.map(comment => {
+        if (comment._id === id) {
+          if (comment.likes.includes(userId)) {
+            console.log({...comment, likes: comment.likes.filter(id => id !== userId)})
+            return {...comment, likes: comment.likes.filter(id => id !== userId)}
+          } else {
+            return {...comment, likes: [...comment.likes, userId]}
+          }
+        } else {
+          return comment
+        }
+      })
+    })
   }
 
 

@@ -1,5 +1,5 @@
 import express from "express";
-import { getPosts, getPost, postComment } from "../controllers/controllers.js";
+import { getPosts, getPost, postComment, updateComment, deleteComment, toggleLikeComment } from "../controllers/controllers.js";
 import { auth } from "express-oauth2-jwt-bearer";
 
 const router = express.Router()
@@ -16,6 +16,14 @@ router.get("/", getPosts)
 router.get("/:id", getPost)
 
 router.post("/:id/comments", checkJwt, postComment)
+
+router.patch("/:commentId", checkJwt, updateComment)
+
+router.delete("/:postId/:commentId", checkJwt, deleteComment)
+
+router.patch("/like/:commentId", checkJwt, toggleLikeComment)
+
+
 
 
 export {router}

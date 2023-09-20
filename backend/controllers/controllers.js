@@ -1,5 +1,4 @@
-import { ObjectId } from "mongodb"
-import { Person, Post, Comment } from "../models/schema.js"
+import { Post, Comment } from "../models/schema.js"
 
 const getPosts = async(req, res, next) => {
   try {
@@ -17,7 +16,7 @@ const getPost = async(req, res, next) => {
     const post = await Post.findById(id).select("title body")
     .populate({
       path: "comments", 
-      select: "createdAt parentId body user",
+      select: "createdAt parentId body user likes",
       options: { sort: { createdAt: -1 } },
       populate: {
         path: "user",
@@ -38,7 +37,7 @@ const getPost = async(req, res, next) => {
 
 const postComment = async (req, res, next) => {
   const { id } = req.params
-  const { body, parentId, userId, username } = req.body
+  const { body, parentId, currentUserId, username } = req.body
   try {
     if (!body) {
       return res.status(400).send("A message is required")
@@ -49,8 +48,8 @@ const postComment = async (req, res, next) => {
       body: body,
       parentId: parentId,
       user: {
-        id: userId,
-        user: username
+        id: currentUserId,
+        name: username
       },
       createdAt: Date.now()
     });
@@ -64,4 +63,69 @@ const postComment = async (req, res, next) => {
   }
 }
 
-export {getPosts, getPost, postComment}
+
+
+const updateComment = async (req, res, next) => {
+  const {commentId} = req.params
+  const { body, currentUserId, commentUserId } = req.body
+  try {
+    if (commentUserId !== currentUserId) {
+      return res.status(401).send("The comment must be your own")
+    }
+    if (!body) {
+      return res.status(400).send("A message is required")
+    } 
+
+    const comment = await Comment.findByIdAndUpdate(commentId, {
+      body: body,
+      updatedAt: Date.now()
+    });
+    res.status(200).json(comment)
+  } catch (error) {
+    error.message = "Failed to update comment"
+    next(error)
+  }
+}
+
+
+
+const deleteComment = async (req, res, next) => {
+  const {postId, commentId} = req.params
+  const { currentUserId, commentUserId } = req.body
+  try {
+    if (commentUserId !== currentUserId) {
+      return res.status(401).send("The comment must be your own")
+    }
+
+    const post = await Post.findById(postId)
+
+    post.comments.filter(comment => comment._id !== commentId)
+    post.save()
+    const comment = await Comment.findByIdAndDelete(commentId)
+    res.status(200).json(commentId)
+  } catch (error) {
+    error.message = "Failed to delete comment"
+    next(error)
+  }
+}
+
+
+const toggleLikeComment = async (req, res, next) => {
+  const { commentId } = req.params
+  const { currentUserId } = req.body
+  try {
+    const comment = await Comment.findById(commentId)
+    if (comment.likes.includes(currentUserId)) {
+      comment.likes.splice(comment.likes.indexOf(currentUserId), 1)
+    } else {
+      comment.likes = [...comment.likes, currentUserId]
+    }
+    comment.save()
+    res.sendStatus(200)
+  } catch (error) {
+    error.message = "Failed to update comment"
+    next(error)
+  }
+}
+
+export {getPosts, getPost, postComment, updateComment, deleteComment, toggleLikeComment}

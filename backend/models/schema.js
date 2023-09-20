@@ -19,7 +19,7 @@ const PostSchema = new mongoose.Schema ({
   comments: [{
     type: mongoose.SchemaTypes.ObjectId,
     ref: "Comment"
-  }]
+  }],
 })
 
 
@@ -41,7 +41,7 @@ const CommentSchema = new mongoose.Schema ({
   user: {
     type: Object,
     _id: String,
-    user: String,
+    name: String,
     required: true
   },
   body: {
@@ -49,10 +49,12 @@ const CommentSchema = new mongoose.Schema ({
     required: true
   },
   parentId: {
-   type: mongoose.SchemaTypes.ObjectId,
-   ref: "Comment",
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "Comment",
   },
-
+  likes: [{
+    type: String
+  }],
   createdAt: {
     type: Date,
     required: true
@@ -60,21 +62,8 @@ const CommentSchema = new mongoose.Schema ({
   updatedAt: Date
 })
 
-
-const LikeSchema = new mongoose.Schema ({
-  user: {
-    type: mongoose.SchemaTypes.ObjectId,
-    ref: "User"
-  },
-
-  comment: {
-    type: mongoose.SchemaTypes.ObjectId,
-    ref: "Comment"
-  }
-})
 const Person = mongoose.model("User", UserSchema);
 const Comment = mongoose.model("Comment", CommentSchema);
 const Post = mongoose.model("Post", PostSchema)
-const Like = mongoose.model("Like", LikeSchema)
 
-export {Person, Comment, Post, Like}
+export {Person, Comment, Post}

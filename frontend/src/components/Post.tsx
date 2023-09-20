@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import { usePost } from '../contexts/PostContext'
 import Comments from './Comments'
 import CommentForm from './CommentForm'
@@ -8,20 +8,18 @@ import { useAuth0 } from '@auth0/auth0-react'
 
 const Post = () => {
   const {data: post, rootComments, createLocalComment } = usePost()
-  const {loading, error, data: comment, execute: createCommentFn} = useAsyncFn(createComment)
+  const {loading, error, execute: createCommentFn} = useAsyncFn(createComment)
   const { getAccessTokenSilently, user } = useAuth0()
 
   const handleCommentCreate = async (body: string) => {
     const token = await getAccessTokenSilently()
-    const userId = user?.sub
+    const currentUserId = user?.sub
     const username = user?.given_name
-    createCommentFn({ postId: post._id, body, userId, username, token })
+    return createCommentFn({ postId: post._id, body, currentUserId, username, token })
+    .then(comment => createLocalComment(comment))
   }
-  useEffect(()=> {
-    if (comment !== undefined) {
-      createLocalComment(comment)
-    }
-  },[comment])
+
+
 
   return (
     <>
@@ -30,13 +28,14 @@ const Post = () => {
       <h3 className='comments-title'>Comments</h3>
       <section>
         <CommentForm 
+          autoFocus
           loading={loading} 
           error={error} 
           onSubmit={handleCommentCreate} 
         />
         {rootComments != null && rootComments.length > 0 ? 
           <div className='mt-4'>
-            <Comments comments={rootComments}/>
+            <Comments comments={rootComments} />
           </div>
         : 
           <p>No comments yet!</p>

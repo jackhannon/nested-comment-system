@@ -4,7 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 interface Props {
   initialValue?: string;
   loading: boolean;
-  error: Error;
+  error?: Error;
   onSubmit: (body: string) => Promise<void>
   autoFocus: boolean
 }

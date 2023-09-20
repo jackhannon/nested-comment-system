@@ -1,6 +1,11 @@
 import { useCallback, useState, useEffect } from "react";
+import {
+  utilInterface
+} from "../utils/utilInterfaces";
 
-type AsyncFunction<T> = (...args: unknown[]) => Promise<T>;
+// Define a union type of all possible argument structures
+
+type AsyncFunction<T> = (args: utilInterface) => Promise<T>;
 
 export function useAsync<T>(
   func: AsyncFunction<T>,
@@ -31,13 +36,14 @@ function useAsyncInternal<T>(
   const [error, setError] = useState<Error>();
   const [data, setData] = useState<T | undefined>();
 
-  const execute = useCallback((...params: unknown[]) => {
+  const execute = useCallback((...params) => {
     setLoading(true);
 
     return func(...params)
       .then((data: T) => {
         setData(data);
         setLoading(false);
+        return data
       })
       .catch((error: Error) => {
         setError(error);
