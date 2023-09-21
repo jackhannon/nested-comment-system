@@ -15,11 +15,11 @@ header {
 .button {
   border-radius: .5rem;
   border:none;
-  background-color: greenyellow;
+  background-color: rgb(222, 243, 196);
 }
 
 .button:hover {
-  background-color: rgb(176, 176, 176);
+  background-color: rgb(171, 195, 167);
 }
 
 .left {
@@ -34,41 +34,6 @@ header {
   border: none;
   background: none;
   color: black
-}
-
-.center {
-  display: flex;
-  justify-content: center;
-  background-color: rgb(105, 102, 102);
-  border-radius: 5px;
-  margin: 0 .4rem 0 .4rem;
-  border-radius: .5rem;
-
-}
-
-#clear {
-  border-radius: 0 .5rem .5rem 0;
-  border: none;
-}
-
-#search {
-  border-radius: .5rem 0 0 .5rem;
-  border: none;
-}
-
-.centerBtn:hover {
-  background-color: rgb(133, 133, 133);
-}
-
-.center input {
- min-width: 1rem
-}
-
-.center button {
-  background-color: transparent;
-  padding: 0.6em 1em;
-  font-size: 1em;
-  position: relative;
 }
 
 .right {

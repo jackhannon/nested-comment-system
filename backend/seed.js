@@ -22,7 +22,7 @@ async function seed() {
     Donec ipsum leo, facilisis at nulla id, suscipit mollis dui. Duis
     cursus mattis viverra. Praesent posuere diam id est vulputate, ut 
     feugiat ligula fermentum. Praesent ut finibus ligula.`,
-    title: "Post 1",
+    title: "Lorem ipsum",
     user: rocky.id,
   })
 
