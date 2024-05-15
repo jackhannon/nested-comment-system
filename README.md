@@ -10,17 +10,14 @@ comment collapsing
 
 comment interactions such as replies and likes
 
-React
-TypeScript
-
 Backend built with:
 MongoDB
 Mongoose
 Express
 TypeScript
+React
 
 System Info:
-
 
 How to install and run:
 
