@@ -11,10 +11,10 @@ comment collapsing
 comment interactions such as replies and likes
 
 Backend built with:
-MongoDB
-Mongoose
-Express
-TypeScript
+MongoDB,
+Mongoose,
+Express,
+TypeScript,
 React
 
 System Info:
