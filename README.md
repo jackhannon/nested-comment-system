@@ -20,7 +20,7 @@ Backend built with:
  - MongoDB
  - Mongoose
  - Express
- - TypeScript
+ - NodeJS
 
 System Info:
 
