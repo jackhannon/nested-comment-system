@@ -55,7 +55,6 @@ export function deleteComment({ postId, commentId, commentUserId, currentUserId,
 
 
 export function toggleCommentLike({ commentId, currentUserId, token }: utilInterface) {
-  console.log(currentUserId)
   const requestData = {
     currentUserId
   };

@@ -75,7 +75,6 @@ const updateComment = async (req, res, next) => {
     if (!body) {
       return res.status(400).send("A message is required")
     } 
-
     const comment = await Comment.findByIdAndUpdate(commentId, {
       body: body,
       updatedAt: Date.now()
@@ -96,12 +95,10 @@ const deleteComment = async (req, res, next) => {
     if (commentUserId !== currentUserId) {
       return res.status(401).send("The comment must be your own")
     }
-
     const post = await Post.findById(postId)
-
     post.comments.filter(comment => comment._id !== commentId)
     post.save()
-    const comment = await Comment.findByIdAndDelete(commentId)
+    await Comment.findByIdAndDelete(commentId)
     res.status(200).json(commentId)
   } catch (error) {
     error.message = "Failed to delete comment"

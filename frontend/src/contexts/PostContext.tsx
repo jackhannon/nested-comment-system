@@ -49,7 +49,7 @@ const PostProvider: React.FC<ContextProviderProps> = ({ children }) => {
 
   useEffect(() => {
     if (data?.comments) {
-      setComments(data?.comments)
+      setComments(data.comments)
     }
   }, [data?.comments])
 

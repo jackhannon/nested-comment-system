@@ -1,9 +1,8 @@
 import express from "express";
 import { connectToDatabase } from "./config/connect.js";
 import cors from 'cors'
-import corsOptions from './config/corsOptions.js'
 import { credentials } from "./middleware/credentials.js";
-
+import corsOptions from "./config/corsOptions.js";
 import dotenv from "dotenv"
 import bodyParser from "body-parser";
 import { router } from "./routes/routes.js";
@@ -15,7 +14,7 @@ dotenv.config()
 
 
 async function startServer() {
-  const port = process.env.PORT;
+  const port = process.env.PORT || 5001;
   await connectToDatabase()
 
   const app = express()
