@@ -2,20 +2,25 @@
 
 Features include but not limited to:
 
-posting a comment 
+ - posting a comment 
 
-comment nesting
+ - comment nesting
 
-comment collapsing
+ - comment collapsing
 
-comment interactions such as replies and likes
+ - comment interactions such as replies and likes
+
+Frontend built with:
+
+ - React
+ - TypeScript
 
 Backend built with:
-MongoDB,
-Mongoose,
-Express,
-TypeScript,
-React
+
+ - MongoDB
+ - Mongoose
+ - Express
+ - TypeScript
 
 System Info:
 
